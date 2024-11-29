@@ -40,7 +40,7 @@ class Building {
 
 function preload() {
   bckgrnd = loadImage(`map.png`);
-  bookImg = loadImage('book.png');
+  bookImg = loadImage('Book.png');
   
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
@@ -83,11 +83,11 @@ function draw() {
 
       noStroke();
       image(bookImg, book.x - 10, book.y - 10, 20, 20); 
-      // Replace with `image()` if you have a book image
+      
       
     }
   }
-  
+  clear();
   image(player.currentImg, player.x, player.y, 40,40);
  
   fill(0);
