@@ -39,7 +39,7 @@ class Building {
 }
 
 function preload() {
-  bckgrnd = loadImage(`map.png`);
+  bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
   
   for (let i = 0; i < 5; i++) {
@@ -49,7 +49,8 @@ function preload() {
     leftImgs[i] = loadImage(`left_${i}.png`); 
     rightImgs[i] = loadImage(`right_${i}.png`);
     upImgs[i] = loadImage(`up_${i}.png`);
-    downImgs[i] = loadImage(`down_${i}.png`);}
+    downImgs[i] = loadImage(`down_${i}.png`);
+  }
 }
 function setup() {
   createCanvas(1300, 800);
@@ -74,7 +75,9 @@ function setup() {
 
 
 function draw() {
+  
   background(bckgrnd);
+
   for (let building of buildings) {
     building.draw();
   }
@@ -87,7 +90,6 @@ function draw() {
       
     }
   }
-  clear();
   image(player.currentImg, player.x, player.y, 40,40);
  
   fill(0);
