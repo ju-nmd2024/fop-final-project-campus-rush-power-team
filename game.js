@@ -11,3 +11,18 @@ let player = {
   
 };
 
+let bookImg;
+let leftImgs = [];
+let rightImgs = [];
+let upImgs = [];
+let downImgs = [];
+let bckgrnd;
+let books = []; // Array to hold book objects
+let booksCollected = 0;
+let playerWidth = 40; // width and height of the player to check collisions
+let playerHeight = 40;
+let buildingImages = [];
+
+let buildings = [];
+
+
