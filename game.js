@@ -1,7 +1,13 @@
-function setup() {
-  createCanvas(800, 600);
-}
-//hello
-function draw() {
-  background(255, 140, 0);
-}
+let player = { 
+  x: 190, 
+  y: 700, 
+  speed: 2, 
+  currentImg: null, 
+  currentState: 0, 
+  direction: "up",
+  width:50,
+  height:50
+
+  
+};
+
