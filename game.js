@@ -21,20 +21,20 @@ let booksCollected = 0;
 let playerWidth = 40; // width and height of the player to check collisions
 let playerHeight = 40;
 let buildingImages = [];
+let npcImage;
 
-let buildings = [];
 
-class Building {
-  constructor(x, y, width, height, img) {
-    this.x = x; 
-    this.y = y; 
-    this.width = width; 
+let npcs = [];
+class NPC {
+  constructor(x, y, width, height, img, messages){
+    this.x = x;
+    this.y = y;
+    this.width = width;
     this.height = height;
-    this.img = img; 
-  }
- // draw the building
-  draw() {
-    image(this.img, this.x, this.y, this.width, this.height);
+    this.img = img;
+    this.messages = messages;
+    this.currentMessageIndex = 0;
+    this.showTextBox = false;
   }
 }
 
