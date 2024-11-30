@@ -240,4 +240,13 @@ function checkBookCollision() {
   }
 }
 
+function keyPressed(){
+  if (keyCode === (13)) {
+    for (let npc of npcs) {
+      if (npc.showTextBox) {
+        npc.nextMessage();
+      }
+    }
+  }
+}
 
