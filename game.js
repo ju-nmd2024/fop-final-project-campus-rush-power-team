@@ -42,8 +42,13 @@ class NPC {
     if(this.showTextBox){
       push();
       fill(255);
+      stroke(0);
+      strokeWeight(3);
       rect(10, 600, 1250, 180); //Text box
+      pop();
+      push();
       fill(0);
+      textFont('Verdana');
       textSize(20);
       textAlign(CENTER, CENTER);
       text(this.messages[this.currentMessageIndex], 1290/2, 700);
@@ -55,7 +60,7 @@ class NPC {
   nextMessage(){
     if (this.showTextBox){
       this.currentMessageIndex++;
-      if (this.currentMessageIndex >= this.message.length){
+      if (this.currentMessageIndex >= this.messages.length){
         this.currentMessageIndex = 0;
         this.showTextBox = false;
       }
