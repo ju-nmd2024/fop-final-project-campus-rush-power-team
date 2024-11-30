@@ -107,7 +107,9 @@ function preload() {
     upImgs[i] = loadImage(`up_${i}.png`);
     downImgs[i] = loadImage(`down_${i}.png`);
   }
+  npcImage = loadImage('npc2.png');
 }
+
 function setup() {
   createCanvas(1300, 800);
   player.currentImg = downImgs[0];
