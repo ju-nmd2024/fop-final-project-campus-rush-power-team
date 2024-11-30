@@ -36,6 +36,62 @@ class NPC {
     this.currentMessageIndex = 0;
     this.showTextBox = false;
   }
+
+  draw(){
+    image(this.img, this.x, this.y, this.width, this.height);
+    if(this.showTextBox){
+      push();
+      fill(255);
+      rect(10, 600, 1250, 180); //Text box
+      fill(0);
+      textSize(20);
+      textAlign(CENTER, CENTER);
+      text(this.messages[this.currentMessageIndex], 1290/2, 700);
+      pop();
+    }
+  }
+
+
+  nextMessage(){
+    if (this.showTextBox){
+      this.currentMessageIndex++;
+      if (this.currentMessageIndex >= this.message.length){
+        this.currentMessageIndex = 0;
+        this.showTextBox = false;
+      }
+    }
+  }
+
+  npcCollision(){
+    if (
+      player.x < this.x + this.width &&
+      player.x + player.width > this.x &&
+      player.y < this.y + this.height &&
+      player.y + player.height > this.y
+    ){
+      this.showTextBox = true;
+      return true;
+    } else {
+      this.showTextBox = false;
+      return false;
+    }
+  }
+}
+
+let buildings = [];
+
+class Building {
+  constructor(x, y, width, height, img) {
+    this.x = x; 
+    this.y = y; 
+    this.width = width; 
+    this.height = height;
+    this.img = img; 
+  }
+ // draw the building
+  draw() {
+    image(this.img, this.x, this.y, this.width, this.height);
+  }
 }
 
 function preload() {
