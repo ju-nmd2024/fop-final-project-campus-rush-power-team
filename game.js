@@ -128,9 +128,9 @@ function setup() {
     });
   }
   
+  //NPCs
+  npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
 }
-
-
 
 function draw() {
   
@@ -158,6 +158,11 @@ function draw() {
    
    handleMovement();
    checkBookCollision();
+
+   for (let npc of npcs){
+    npc.draw();
+    npc.npcCollision();
+   }
   
 }
 
