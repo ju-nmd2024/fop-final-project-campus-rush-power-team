@@ -105,6 +105,7 @@ function preload() {
   bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
   coffee= loadImage('coffee.png');
+  npcImage = loadImage("npc2.png");
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
   }
@@ -114,7 +115,7 @@ function preload() {
     upImgs[i] = loadImage(`up_${i}.png`);
     downImgs[i] = loadImage(`down_${i}.png`);
   }
-
+npcImage = loadImage('npc2.png');
 }
 
 function setup() {
