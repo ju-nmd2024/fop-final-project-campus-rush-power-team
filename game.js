@@ -10,6 +10,8 @@ let player = {
 
   
 };
+var counter = 60;
+let state = "start";
 let bookImg;
 let leftImgs = [];
 let rightImgs = [];
@@ -21,6 +23,67 @@ let booksCollected = 0;
 let playerWidth = 40; // width and height of the player to check collisions
 let playerHeight = 40;
 let buildingImages = [];
+let npcImage;
+
+
+let npcs = [];
+class NPC {
+  constructor(x, y, width, height, img, messages){
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.img = img;
+    this.messages = messages;
+    this.currentMessageIndex = 0;
+    this.showTextBox = false;
+  }
+
+  draw(){
+    image(this.img, this.x, this.y, this.width, this.height);
+    if(this.showTextBox){
+      push();
+      fill(255);
+      stroke(0);
+      strokeWeight(3);
+      rect(10, 600, 1250, 180); //Text box
+      pop();
+      push();
+      fill(0);
+      textFont('Verdana');
+      textSize(20);
+      textAlign(CENTER, CENTER);
+      text(this.messages[this.currentMessageIndex], 1290/2, 700);
+      pop();
+    }
+  }
+
+
+  nextMessage(){
+    if (this.showTextBox){
+      this.currentMessageIndex++;
+      if (this.currentMessageIndex >= this.messages.length){
+        this.currentMessageIndex = 0;
+        this.showTextBox = false;
+      }
+    }
+  }
+
+  npcCollision(){
+    if (
+      player.x < this.x + this.width &&
+      player.x + player.width > this.x &&
+      player.y < this.y + this.height &&
+      player.y + player.height > this.y
+    ){
+      this.showTextBox = true;
+      return true;
+    } else {
+      this.showTextBox = false;
+      return false;
+    }
+  }
+}
 
 let buildings = [];
 
@@ -53,6 +116,7 @@ function preload() {
   }
 
 }
+
 function setup() {
   createCanvas(1300, 800);
   player.currentImg = downImgs[0];
@@ -86,13 +150,59 @@ function setup() {
  
   
   
+  //NPCs
+  npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
 }
 
+function startScreen() {
+  push();
+  background(176,196,222);
+  fill(0);
+  textSize(40);
+  textAlign(CENTER,CENTER);
+  text("Press ENTER to START", 1300 / 2, 250);
 
+  fill(255);
+  strokeWeight(2);
+  rect(550, 400, 150, 50, 50); 
+  fill(0);
+  textSize(20);
+  text("Rules", 625, 425);
+  pop();
+}
 
-function draw() {
+function rulesScreen() {
+  background(0);
+  fill(255);
+  textSize(25);
+  textAlign(CENTER);
+  //text ("", x, y);
+  text("Is your first day as an international student at university", 1300 / 2, 150);
+  text("Ask people to guide you to the correct building", 1300 / 2, 200);
+  text("If you go into the wrong building it's game over", 1300 / 2, 250);
+  text("Collect 10 books, if you drink less than 5 coffes you can go faster ", 1300 / 2, 300);
+  text("but if you drink more than 5 it will slow you down", 1300 / 2, 350);
+  text("Get on time! you have 1 min", 1300 / 2, 400);
+
+  fill(255);
+  rect(550, 520, 150, 50, 50); 
+  fill(0);
+  textSize(20);
+  text("Main Menu", 625, 550);
+}
+
+function gameScreen() {
   
   background(bckgrnd);
+  
+  push();
+  counter -= 1/60;
+  fill(0);
+  textSize(20);
+  textFont('Verdana');
+  text(round(counter), 10, 80);
+
+  pop();
 
   for (let building of buildings) {
     building.draw();
@@ -110,12 +220,110 @@ function draw() {
   image(coffee,20,20);
   fill(0);
   textSize(20);
+  textFont('Verdana');
   text(`Books Collected: ${booksCollected}`, 10, 30);
   
 
    
    handleMovement();
    checkBookCollision();
+
+   for (let npc of npcs){
+    npc.draw();
+    npc.npcCollision();
+   }
+}
+
+function resultScreenGameOver() {
+  background(202, 11, 11);
+  textSize(42);
+  fill(255);
+  textAlign(CENTER);
+  textFont('Verdana');
+  text("Game Over", 1300 / 2, 250);
+
+  fill(255);
+  rect(700, 520, 150, 50, 50); // Retry - Button
+  rect(450, 520, 150, 50, 50); // Main Menu - Button
+  fill(0);
+  textSize(20);
+  text("Retry", 780, 550);
+  text("Main Menu", 525, 550);
+}
+
+function resultScreenWin() {
+  background(0, 200, 0);
+  textSize(42);
+  fill(255);
+  textAlign(CENTER);
+  text("You arrived on time!!", 1300/ 2, 250);
+
+  fill(255);
+  rect(550, 520, 150, 50, 50); // Main Menu - Button
+  fill(0);
+  textSize(20);
+  text("Main Menu", 630, 550);
+}
+
+function resetGame() {
+  state = "game";
+  
+  player.x = 190;
+  player.y = 700;
+  player.direction = "up";
+  player.currentImg = downImgs[0]; //initial
+  
+  booksCollected = 0;
+  counter = 60;
+  
+  for (let book of books){
+    book.x = random(50, width - 50);
+    book.y = random(50, height - 50);
+    book.collected = false;
+  }
+
+   for (let npc of npcs){
+    npc.draw();
+    npc.npcCollision();
+   }
+
+  
+  //NPCs
+  npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
+
+
+}
+
+function draw() {
+
+  if (state === "start") {
+    startScreen();
+    if (keyIsDown(13)) {
+        resetGame();
+    }
+} else if (state === "game") {
+    gameScreen();
+
+    // Winning or losing in the game
+    if (counter >= 0 ){
+      if (player.x >=1000 && player.x <=1250 &&
+        player.y >=30 && player.y <=70){
+        if (booksCollected === 10){
+          state = "win";   
+    } else {
+      state = "lose";
+   }
+  }
+}else{
+      state = "lose";
+}
+} else if (state === "lose") {
+    resultScreenGameOver();
+} else if (state === "win") {
+    resultScreenWin();
+} else if (state === "rules") {
+    rulesScreen();
+}
   
 }
 
@@ -173,7 +381,6 @@ function handleMovement() {
  
 }
 
-
 // Check for overlap between player and books
 function checkBookCollision() {
   for (let book of books) {
@@ -206,4 +413,29 @@ function checkPosition(x, y, width, height) {
     }
   }
   return true; 
+}
+function keyPressed(){
+  if (keyCode === (13)) {
+    for (let npc of npcs) {
+      if (npc.showTextBox) {
+        npc.nextMessage();
+      }
+    }
+  }
+}
+
+function mousePressed() {
+  if (state === "start" && mouseX > 550 && mouseX < 700 && mouseY > 400 && mouseY < 450) {
+      state = "rules";
+  } else if (state === "rules" && mouseX > 550 && mouseX < 700 && mouseY > 520 && mouseY < 570) {
+      state = "start";
+  } else if (state === "lose") {
+      if (mouseX > 700 && mouseX < 850 && mouseY > 520 && mouseY < 570) {
+          resetGame();
+      } else if (mouseX > 450 && mouseX < 600 && mouseY > 520 && mouseY < 570) {
+          state = "start";
+      }
+  } else if (state === "win" && mouseX > 550 && mouseX < 700 && mouseY > 520 && mouseY < 570) {
+      state = "start";
+  }
 }
