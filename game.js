@@ -141,17 +141,18 @@ function setup() {
 
 function startScreen() {
   push();
-  background(0, 0, 50);
-  fill(255);
-  textSize(32);
+  background(176,196,222);
+  fill(0);
+  textSize(40);
   textAlign(CENTER,CENTER);
-  text("Press ENTER to START", 1200 / 2, 200);
+  text("Press ENTER to START", 1300 / 2, 250);
 
   fill(255);
-  rect(275, 400, 150, 50, 50); 
+  strokeWeight(2);
+  rect(550, 400, 150, 50, 50); 
   fill(0);
   textSize(20);
-  text("Rules", 350, 430);
+  text("Rules", 625, 425);
   pop();
 }
 
@@ -161,18 +162,18 @@ function rulesScreen() {
   textSize(25);
   textAlign(CENTER);
   //text ("", x, y);
-  text("Is your first day as an international student at university", 1200 / 2, 150);
-  text("Ask people to guide you to the correct building", 1200 / 2, 200);
-  text("If you go into the wrong building it's game over", 1200 / 2, 250);
-  text("Collect 10 books, if you drink less than 5 coffes you can go faster ", 1200 / 2, 300);
-  text("but if you drink more than 5 it will slow you down", 1200 / 2, 350);
-  text("Get on time! you have 1 min", 1200 / 2, 400);
+  text("Is your first day as an international student at university", 1300 / 2, 150);
+  text("Ask people to guide you to the correct building", 1300 / 2, 200);
+  text("If you go into the wrong building it's game over", 1300 / 2, 250);
+  text("Collect 10 books, if you drink less than 5 coffes you can go faster ", 1300 / 2, 300);
+  text("but if you drink more than 5 it will slow you down", 1300 / 2, 350);
+  text("Get on time! you have 1 min", 1300 / 2, 400);
 
   fill(255);
-  rect(275, 520, 150, 50, 50); 
+  rect(550, 520, 150, 50, 50); 
   fill(0);
   textSize(20);
-  text("Main Menu", 350, 550);
+  text("Main Menu", 625, 550);
 }
 
 function gameScreen() {
@@ -183,10 +184,9 @@ function gameScreen() {
   counter -= 1/60;
   fill(0);
   textSize(20);
-  textFont('Verdana')
+  textFont('Verdana');
   text(round(counter), 10, 80);
 
-  //if (counter = 0){}
   pop();
 
   for (let building of buildings) {
@@ -205,6 +205,7 @@ function gameScreen() {
  
   fill(0);
   textSize(20);
+  textFont('Verdana');
   text(`Books Collected: ${booksCollected}`, 10, 30);
   
 
@@ -219,19 +220,19 @@ function gameScreen() {
 }
 
 function resultScreenGameOver() {
-  background(200, 10, 10);
+  background(202, 11, 11);
   textSize(42);
   fill(255);
   textAlign(CENTER);
   textFont('Verdana');
-  text("Game Over", 1200 / 2, 500);
+  text("Game Over", 1300 / 2, 250);
 
   fill(255);
-  rect(100, 520, 150, 50, 50); // Retry - Button
+  rect(700, 520, 150, 50, 50); // Retry - Button
   rect(450, 520, 150, 50, 50); // Main Menu - Button
   fill(0);
   textSize(20);
-  text("Retry", 175, 550);
+  text("Retry", 780, 550);
   text("Main Menu", 525, 550);
 }
 
@@ -240,27 +241,30 @@ function resultScreenWin() {
   textSize(42);
   fill(255);
   textAlign(CENTER);
-  text("You arrived on time!!", 1200/ 2, 500);
+  text("You arrived on time!!", 1300/ 2, 250);
 
   fill(255);
-  rect(275, 520, 150, 50); // Main Menu - Button
+  rect(550, 520, 150, 50, 50); // Main Menu - Button
   fill(0);
   textSize(20);
-  text("Main Menu", 350, 550);
+  text("Main Menu", 630, 550);
 }
 
 function resetGame() {
   state = "game";
-  counter = 60;
-
+  
   player.x = 190;
   player.y = 700;
   player.direction = "up";
   player.currentImg = downImgs[0]; //initial
+  
   booksCollected = 0;
-
-  for (let building of buildings) {
-    building.draw();
+  counter = 60;
+  
+  for (let book of books){
+    book.x = random(50, width - 50);
+    book.y = random(50, height - 50);
+    book.collected = false;
   }
 
    for (let npc of npcs){
@@ -287,18 +291,17 @@ function draw() {
 
     // Winning or losing in the game
     if (counter >= 0 ){
-      if (booksCollected === 10){
-        if (
-          player.x >=1000 && player.x <=1250 &&
-          player.y >=30 && player.y <=70
-        ){
-          state = "win";
-        }
-      }
+      if (player.x >=1000 && player.x <=1250 &&
+        player.y >=30 && player.y <=70){
+        if (booksCollected === 10){
+          state = "win";   
     } else {
-  state = "lose";
+      state = "lose";
+   }
+  }
+}else{
+      state = "lose";
 }
-
 } else if (state === "lose") {
     resultScreenGameOver();
 } else if (state === "win") {
@@ -363,7 +366,6 @@ function handleMovement() {
  
 }
 
-
 // Check for overlap between player and books
 function checkBookCollision() {
   for (let book of books) {
@@ -394,17 +396,17 @@ function keyPressed(){
 }
 
 function mousePressed() {
-  if (state === "start" && mouseX > 275 && mouseX < 425 && mouseY > 400 && mouseY < 450) {
+  if (state === "start" && mouseX > 550 && mouseX < 700 && mouseY > 400 && mouseY < 450) {
       state = "rules";
-  } else if (state === "rules" && mouseX > 275 && mouseX < 425 && mouseY > 520 && mouseY < 570) {
+  } else if (state === "rules" && mouseX > 550 && mouseX < 700 && mouseY > 520 && mouseY < 570) {
       state = "start";
   } else if (state === "lose") {
-      if (mouseX > 100 && mouseX < 250 && mouseY > 520 && mouseY < 570) {
+      if (mouseX > 700 && mouseX < 850 && mouseY > 520 && mouseY < 570) {
           resetGame();
       } else if (mouseX > 450 && mouseX < 600 && mouseY > 520 && mouseY < 570) {
           state = "start";
       }
-  } else if (state === "win" && mouseX > 275 && mouseX < 425 && mouseY > 520 && mouseY < 570) {
+  } else if (state === "win" && mouseX > 550 && mouseX < 700 && mouseY > 520 && mouseY < 570) {
       state = "start";
   }
 }
