@@ -41,7 +41,7 @@ class Building {
 function preload() {
   bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
-  
+  coffee= loadImage('coffee.png');
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
   }
@@ -51,6 +51,7 @@ function preload() {
     upImgs[i] = loadImage(`up_${i}.png`);
     downImgs[i] = loadImage(`down_${i}.png`);
   }
+
 }
 function setup() {
   createCanvas(1300, 800);
@@ -62,13 +63,28 @@ function setup() {
   buildings.push(new Building(500, 0, 140, 190, buildingImages[3]));
   buildings.push(new Building(500, 580, 140, 190, buildingImages[4]));
 
-  for (let i = 0; i < 10; i++) {
-    books.push({
-      x: random(50, width - 50), 
-      y: random(50, height - 50),
-      collected: false // Track if the books are collected
-    });
-  }
+
+    for (let i = 0; i < 10; i++) {
+      let valid = false;
+      let bookX, bookY;
+  
+      while (!valid) {
+        // Generate random position
+        bookX = random(50, width - 50);
+        bookY = random(50, height - 50);
+  
+        // Check if the position is valid
+        valid = checkPosition(bookX, bookY, 20, 20); // Book size is 20x20
+      }
+  
+      books.push({
+        x: bookX,
+        y: bookY,
+        collected: false
+      });
+    }
+ 
+  
   
 }
 
@@ -85,13 +101,13 @@ function draw() {
     if (!book.collected) {
 
       noStroke();
-      image(bookImg, book.x - 10, book.y - 10, 20, 20); 
+      image(bookImg, book.x , book.y , 20, 20); 
       
       
     }
   }
   image(player.currentImg, player.x, player.y, 40,40);
- 
+  image(coffee,20,20);
   fill(0);
   textSize(20);
   text(`Books Collected: ${booksCollected}`, 10, 30);
@@ -177,4 +193,17 @@ function checkBookCollision() {
   }
 }
 
-
+//control the random position for book to avoid buildings
+function checkPosition(x, y, width, height) {
+  for (let building of buildings) {
+    if (
+      x < building.x+20 + building.width+20 &&
+      x + width > building.x+20 &&
+      y < building.y+20 + building.height+20 &&
+      y + height > building.y+20
+    ) {
+      return false; 
+    }
+  }
+  return true; 
+}
