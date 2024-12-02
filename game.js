@@ -24,6 +24,9 @@ let playerWidth = 40; // width and height of the player to check collisions
 let playerHeight = 40;
 let buildingImages = [];
 let npcImage;
+let coffees = []; 
+let coffeeCollected = 0;
+let coffeeimg;
 
 
 let npcs = [];
@@ -104,8 +107,8 @@ class Building {
 function preload() {
   bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
-  coffee= loadImage('coffee.png');
-  npcImage = loadImage("npc2.png");
+  coffeeimg= loadImage('Coffee.png');
+ 
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
   }
@@ -148,7 +151,18 @@ function setup() {
         collected: false
       });
     }
- 
+    for (let i = 0; i < 10; i++) {
+      let valid = false;
+      let coffeeX, coffeeY;
+  
+      while (!valid) {
+        coffeeX = random(50, width - 50);
+        coffeeY = random(50, height - 50);
+        valid = checkPosition(coffeeX, coffeeY, 20, 20); 
+      }
+  
+      coffees.push({ x: coffeeX, y: coffeeY, collected: false });
+    }
   
   
   //NPCs
@@ -217,17 +231,24 @@ function gameScreen() {
       
     }
   }
+   for (let coffee of coffees) {
+    if (!coffee.collected) {
+      image(coffeeimg, coffee.x, coffee.y, 20, 20);
+    }
+  }
   image(player.currentImg, player.x, player.y, 40,40);
-  image(coffee,20,20);
+  
   fill(0);
   textSize(20);
   textFont('Verdana');
   text(`Books Collected: ${booksCollected}`, 10, 30);
-  
-
+  text(`Coffee Collected: ${coffeeCollected}`, 10, 60);
+  /*counter -= 1 / 60;
+  text(`Time: ${round(counter)}`, 10, 90);*/
    
    handleMovement();
    checkBookCollision();
+   checkCoffeeCollision();
 
    for (let npc of npcs){
     npc.draw();
@@ -405,15 +426,50 @@ function checkBookCollision() {
 function checkPosition(x, y, width, height) {
   for (let building of buildings) {
     if (
-      x < building.x+20 + building.width+20 &&
-      x + width > building.x+20 &&
-      y < building.y+20 + building.height+20 &&
-      y + height > building.y+20
+      x < building.x + building.width+20 &&
+      x + width > building.x &&
+      y < building.y + building.height+20 &&
+      y + height > building.y
     ) {
       return false; 
     }
   }
+  for (let coffee of coffees) {
+    if (
+      x < coffee.x + 20 && // Coffee width
+      x + width > coffee.x &&
+      y < coffee.y + 20 && // Coffee height
+      y + height > coffee.y
+    ) {
+      return false; // Collides with another coffee cup
+    }
+  }
+  
   return true; 
+
+  
+}
+function checkCoffeeCollision() {
+  for (let coffee of coffees) {
+    if (!coffee.collected) {
+      if (
+        player.x < coffee.x + 20 && // Coffee cup width
+        player.x + playerWidth > coffee.x &&
+        player.y < coffee.y + 20 && // Coffee cup height
+        player.y + playerHeight > coffee.y
+      ) {
+        coffee.collected = true; // Mark as collected
+        coffeeCollected++; // Increase the counter
+
+        // Adjust player speed
+        if (coffeeCollected <= 5) {
+          player.speed += 0.5; // Gradually increase speed
+        } else {
+          player.speed = max(1, player.speed - 0.3); // Gradually decrease speed, with a minimum limit
+        }
+      }
+    }
+  }
 }
 function keyPressed(){
   if (keyCode === (13)) {
@@ -434,6 +490,7 @@ function mousePressed() {
       if (mouseX > 700 && mouseX < 850 && mouseY > 520 && mouseY < 570) {
           resetGame();
       } else if (mouseX > 450 && mouseX < 600 && mouseY > 520 && mouseY < 570) {
+         resetGame();
           state = "start";
       }
   } else if (state === "win" && mouseX > 550 && mouseX < 700 && mouseY > 520 && mouseY < 570) {
