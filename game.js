@@ -23,7 +23,7 @@ let booksCollected = 0;
 let playerWidth = 40; // width and height of the player to check collisions
 let playerHeight = 40;
 let buildingImages = [];
-let npcImage;
+let npcImages = [];
 let coffees = []; 
 let coffeeCollected = 0;
 let coffeeimg;
@@ -120,7 +120,11 @@ function preload() {
     upImgs[i] = loadImage(`up_${i}.png`);
     downImgs[i] = loadImage(`down_${i}.png`);
   }
-npcImage = loadImage('npc2.png');
+
+  for (let i = 0; i < 4 ; i++){
+    npcImages[i]= loadImage(`npc${i}.png`);
+  }
+  
 }
 //control the random position for book and coffe to avoid buildings posit
 function checkPosition(x, y, width, height) {
@@ -169,9 +173,10 @@ function checkPosition(x, y, width, height) {
   }
   return true; 
   
-
+  
   
 }
+
 function setup() {
   createCanvas(1300, 800);
   player.currentImg = downImgs[0];
@@ -234,8 +239,11 @@ function setup() {
     }
   
   
-  //NPCs
-  npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
+//NPCs
+  npcs.push(new NPC(300, 345, 45, 45, npcImages[0],["Hey!","your building was destroyed, you no longer have class"]));  
+  npcs.push(new NPC(450, 500, 35, 45, npcImages[1],["Hey there!","The building you are looking for has a different design compared to the other buildings"])); 
+  npcs.push(new NPC(1000, 555, 35, 45, npcImages[2],["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
+  npcs.push(new NPC(790, 245, 35, 45, npcImages[3],["Hi","it is actually a supermarket"]));
 }
 
 function startScreen() {
@@ -434,10 +442,6 @@ function resetGame() {
     npc.npcCollision();
    }*/
 
-  
-  //NPCs
-  //npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
-
 
 }
 
@@ -453,7 +457,7 @@ function draw() {
 
     // Winning or losing in the game
     if (counter >= 0 ){
-      if (player.x >=1000 && player.x <=1250 &&
+      if (player.x >=1050 && player.x <=1150 &&
         player.y >=160 && player.y <=170){
         if (booksCollected === 10){
           state = "win";   
