@@ -44,7 +44,8 @@ class NPC {
   }
 
   draw(){
-    image(this.img, this.x, this.y, this.width, this.height);
+    
+    image(this.img , this.x, this.y, this.width, this.height);
     if(this.showTextBox){
       push();
       fill(255);
@@ -432,10 +433,15 @@ function resetGame() {
     });
   }
   npcs = [];
-  npcs.push(new NPC(700, 345, 35, 45, npcImage, [
+  npcs.push(new NPC(700, 345, 35, 45, npcImages, [
     "Hey there! (press enter ->)",
     "The building you are looking for has a different design compared to the other buildings",
   ]));
+  npcs = [];
+npcs.push(new NPC(300, 345, 45, 45, npcImages[0], ["Hey!", "Your building was destroyed, you no longer have class"]));  
+npcs.push(new NPC(450, 500, 35, 45, npcImages[1], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"])); 
+npcs.push(new NPC(1000, 555, 35, 45, npcImages[2], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"]));
+npcs.push(new NPC(790, 245, 35, 45, npcImages[3], ["Hi", "It is actually a supermarket"]));
 
 
    /*for (let npc of npcs){
