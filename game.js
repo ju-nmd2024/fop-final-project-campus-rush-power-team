@@ -368,6 +368,7 @@ function resetGame() {
   player.x = 190;
   player.y = 700;
   player.direction = "up";
+  player.speed = 2;
   player.currentImg = downImgs[0]; //initial
   player.currentState = 0;
   booksCollected = 0;
@@ -424,7 +425,7 @@ function resetGame() {
   }
   npcs = [];
   npcs.push(new NPC(700, 345, 35, 45, npcImage, [
-    "Hey there!",
+    "Hey there! (press enter ->)",
     "The building you are looking for has a different design compared to the other buildings",
   ]));
 
