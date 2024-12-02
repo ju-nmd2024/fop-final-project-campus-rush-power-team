@@ -369,36 +369,74 @@ function resetGame() {
   player.y = 700;
   player.direction = "up";
   player.currentImg = downImgs[0]; //initial
-  
+  player.currentState = 0;
   booksCollected = 0;
+  coffeeCollected = 0;
   counter = 60;
   
-  for (let book of books) {
-    if (!book.collected) {
-image(bookImg, book.x , book.y , 20, 20);     
+  books = [];
+  for (let i = 0; i < 10; i++) {
+    let valid = false;
+    let bookX, bookY;
+    while (!valid) {
+      bookX = random(50, width - 50);
+      bookY = random(50, height - 50);
+      valid = checkPosition(bookX, bookY, 20, 20); }
+      books.push({
+        x: bookX,
+        y: bookY,
+        collected: false,
+      });
     }
-  }
-   for (let coffee of coffees) {
-    if (!coffee.collected) {
-      image(coffeeimg, coffee.x, coffee.y, 20, 20);
-    }
-  }
-
-  for (let clock of clocks) {
-    if (!clock.collected) {
-      image(clockImg, clock.x, clock.y, 20, 20);
-    }
-  }
+    coffees = [];
+    for (let i = 0; i < 10; i++) {
+      let valid = false;
+      let coffeeX, coffeeY;
   
+      while (!valid) {
+        coffeeX = random(50, width - 50);
+        coffeeY = random(50, height - 50);
+        valid = checkPosition(coffeeX, coffeeY, 20, 20);
+      }
+  
+      coffees.push({
+        x: coffeeX,
+        y: coffeeY,
+        collected: false,
+      });
+    }
+    clocks = [];
+  for (let i = 0; i < 4; i++) {
+    let valid = false;
+    let clockX, clockY;
 
-   for (let npc of npcs){
+    while (!valid) {
+      clockX = random(50, width - 50);
+      clockY = random(50, height - 50);
+      valid = checkPosition(clockX, clockY, 20, 20);
+    }
+
+    clocks.push({
+      x: clockX,
+      y: clockY,
+      collected: false,
+    });
+  }
+  npcs = [];
+  npcs.push(new NPC(700, 345, 35, 45, npcImage, [
+    "Hey there!",
+    "The building you are looking for has a different design compared to the other buildings",
+  ]));
+
+
+   /*for (let npc of npcs){
     npc.draw();
     npc.npcCollision();
-   }
+   }*/
 
   
   //NPCs
-  npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
+  //npcs.push(new NPC(700, 345, 35, 45, npcImage,["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
 
 
 }
