@@ -373,17 +373,23 @@ function resetGame() {
   booksCollected = 0;
   counter = 60;
   
-
-  for (let book of books){
-    book.x = random(50, width - 50);
-    book.y = random(50, height - 50);
-    book.collected = false;
+  for (let book of books) {
+    if (!book.collected) {
+image(bookImg, book.x , book.y , 20, 20);     
+    }
   }
-  for (let coffee of coffees) {
+   for (let coffee of coffees) {
     if (!coffee.collected) {
-      image(coffeeimg, coffee.x, coffee.y, 20, 20); 
-      coffeeCollected=0;
-     }  }
+      image(coffeeimg, coffee.x, coffee.y, 20, 20);
+    }
+  }
+
+  for (let clock of clocks) {
+    if (!clock.collected) {
+      image(clockImg, clock.x, clock.y, 20, 20);
+    }
+  }
+  
 
    for (let npc of npcs){
     npc.draw();
@@ -410,7 +416,7 @@ function draw() {
     // Winning or losing in the game
     if (counter >= 0 ){
       if (player.x >=1000 && player.x <=1250 &&
-        player.y >=30 && player.y <=70){
+        player.y >=160 && player.y <=170){
         if (booksCollected === 10){
           state = "win";   
     } else {
