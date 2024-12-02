@@ -27,6 +27,7 @@ let npcImage;
 let coffees = []; 
 let coffeeCollected = 0;
 let coffeeimg;
+let clocks= [];
 
 
 let npcs = [];
@@ -108,6 +109,7 @@ function preload() {
   bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
   coffeeimg= loadImage('Coffee.png');
+  clockImg = loadImage('Clock.png');
  
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
@@ -120,7 +122,56 @@ function preload() {
   }
 npcImage = loadImage('npc2.png');
 }
+//control the random position for book and coffe to avoid buildings posit
+function checkPosition(x, y, width, height) {
+  for (let building of buildings) {
+    if (
+      x < building.x + building.width+60 &&
+      x + width > building.x-60 &&
+      y < building.y + building.height+60 &&
+      y + height > building.y-60
+    ) { 
+      return false; 
+    }
+  }
+  
 
+ /* for (let book of books) {
+    if (
+      x < book.x + 20 && // Book width
+      x + width > book.x &&
+      y < book.y + 20 && // Book height
+      y + height > book.y
+    ) {
+      return false; // Invalid position
+    }
+  }*/
+ 
+  for (let coffee of coffees) {
+    if (
+      x < coffee.x + 20 && 
+      x + width > coffee.x &&
+      y < coffee.y + 20 && 
+      y + height > coffee.y
+    ) {
+      return false; 
+    }
+  }
+  for (let clock of clocks) {
+    if (
+      x < clock.x + 20 &&
+      x + width > clock.x &&
+      y < clock.y + 20 &&
+      y + height > clock.y
+    ) {
+      return false; 
+    }
+  }
+  return true; 
+  
+
+  
+}
 function setup() {
   createCanvas(1300, 800);
   player.currentImg = downImgs[0];
@@ -156,8 +207,8 @@ function setup() {
       let coffeeX, coffeeY;
   
       while (!valid) {
-        coffeeX = random(50, width - 50);
-        coffeeY = random(50, height - 50);
+        coffeeX = random(50, width - 70);
+        coffeeY = random(50, height - 70);
         valid = checkPosition(coffeeX, coffeeY, 20, 20); 
       }
   
@@ -166,6 +217,20 @@ function setup() {
          y: coffeeY,
           collected: false
          });
+    }
+    for (let i = 0; i<4; i++ ){
+      let valid = false;
+      let ClockX, ClockY; 
+      while (!valid) {
+        ClockX = random(50, width - 50);
+        ClockY = random(50, height - 50);
+        valid = checkPosition(ClockX, ClockY, 20, 20); 
+      }
+      clocks.push({
+        x: ClockX,
+        y: ClockY,
+         collected: false
+        });
     }
   
   
@@ -228,9 +293,7 @@ function gameScreen() {
   }
   for (let book of books) {
     if (!book.collected) {
-
-      noStroke();
-      image(bookImg, book.x , book.y , 20, 20); 
+image(bookImg, book.x , book.y , 20, 20); 
       
       
     }
@@ -240,6 +303,13 @@ function gameScreen() {
       image(coffeeimg, coffee.x, coffee.y, 20, 20);
     }
   }
+
+  for (let clock of clocks) {
+    if (!clock.collected) {
+      image(clockImg, clock.x, clock.y, 20, 20);
+    }
+  }
+
   image(player.currentImg, player.x, player.y, 40,40);
   
   fill(0);
@@ -253,6 +323,7 @@ function gameScreen() {
    handleMovement();
    checkBookCollision();
    checkCoffeeCollision();
+   checkClockCollision();
 
    for (let npc of npcs){
     npc.draw();
@@ -302,6 +373,7 @@ function resetGame() {
   booksCollected = 0;
   counter = 60;
   
+
   for (let book of books){
     book.x = random(50, width - 50);
     book.y = random(50, height - 50);
@@ -421,7 +493,7 @@ function checkBookCollision() {
         player.x < book.x + 20 && 
         player.x + playerWidth > book.x &&
         player.y < book.y + 20 && // Book's height is 20
-        player.y < book.y + 20 && 
+       
         player.y + playerHeight > book.y
       ) {
         book.collected = true; // Mark the book as collected
@@ -429,45 +501,6 @@ function checkBookCollision() {
       }
     }
   }
-}
-
-//control the random position for book and coffe to avoid buildings posit
-function checkPosition(x, y, width, height) {
-  for (let building of buildings) {
-    if (
-      x < building.x + building.width+20 &&
-      x + width > building.x &&
-      y < building.y + building.height+20 &&
-      y + height > building.y
-    ) {
-      return false; 
-    }
-  }
-  for (let book of books) {
-    if (
-      x < book.x + 20 && // Book width
-      x + width > book.x &&
-      y < book.y + 20 && // Book height
-      y + height > book.y
-    ) {
-      return false; // Invalid position
-    }
-  }
- 
-  for (let coffee of coffees) {
-    if (
-      x < coffee.x + 20 && 
-      x + width > coffee.x &&
-      y < coffee.y + 20 && 
-      y + height > coffee.y
-    ) {
-      return false; 
-    }
-  }
-  
-  return true; 
-
-  
 }
 function checkCoffeeCollision() {
   for (let coffee of coffees) {
@@ -491,6 +524,21 @@ function checkCoffeeCollision() {
     }
   }
 }
+function checkClockCollision() {
+  for (let clock of clocks) {
+    if (!clock.collected) {
+      if (
+        player.x < clock.x + 20 &&
+        player.x + player.width > clock.x &&
+        player.y < clock.y + 20 &&
+        player.y + player.height > clock.y
+      ) {
+        clock.collected = true;
+        counter+= 10;
+         }
+     }
+  }
+ }
 function keyPressed(){
   if (keyCode === (13)) {
     for (let npc of npcs) {
@@ -500,7 +548,6 @@ function keyPressed(){
     }
   }
 }
-
 function mousePressed() {
   if (state === "start" && mouseX > 550 && mouseX < 700 && mouseY > 400 && mouseY < 450) {
       state = "rules";
