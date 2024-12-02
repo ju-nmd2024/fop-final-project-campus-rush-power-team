@@ -161,7 +161,11 @@ function setup() {
         valid = checkPosition(coffeeX, coffeeY, 20, 20); 
       }
   
-      coffees.push({ x: coffeeX, y: coffeeY, collected: false });
+      coffees.push({
+         x: coffeeX,
+         y: coffeeY,
+          collected: false
+         });
     }
   
   
@@ -303,6 +307,11 @@ function resetGame() {
     book.y = random(50, height - 50);
     book.collected = false;
   }
+  for (let coffee of coffees) {
+    if (!coffee.collected) {
+      image(coffeeimg, coffee.x, coffee.y, 20, 20); 
+      coffeeCollected=0;
+     }  }
 
    for (let npc of npcs){
     npc.draw();
@@ -422,7 +431,7 @@ function checkBookCollision() {
   }
 }
 
-//control the random position for book to avoid buildings
+//control the random position for book and coffe to avoid buildings posit
 function checkPosition(x, y, width, height) {
   for (let building of buildings) {
     if (
@@ -434,14 +443,25 @@ function checkPosition(x, y, width, height) {
       return false; 
     }
   }
+  for (let book of books) {
+    if (
+      x < book.x + 20 && // Book width
+      x + width > book.x &&
+      y < book.y + 20 && // Book height
+      y + height > book.y
+    ) {
+      return false; // Invalid position
+    }
+  }
+ 
   for (let coffee of coffees) {
     if (
-      x < coffee.x + 20 && // Coffee width
+      x < coffee.x + 20 && 
       x + width > coffee.x &&
-      y < coffee.y + 20 && // Coffee height
+      y < coffee.y + 20 && 
       y + height > coffee.y
     ) {
-      return false; // Collides with another coffee cup
+      return false; 
     }
   }
   
@@ -453,19 +473,19 @@ function checkCoffeeCollision() {
   for (let coffee of coffees) {
     if (!coffee.collected) {
       if (
-        player.x < coffee.x + 20 && // Coffee cup width
+        player.x < coffee.x + 20 && 
         player.x + playerWidth > coffee.x &&
-        player.y < coffee.y + 20 && // Coffee cup height
+        player.y < coffee.y + 20 && 
         player.y + playerHeight > coffee.y
       ) {
-        coffee.collected = true; // Mark as collected
-        coffeeCollected++; // Increase the counter
+        coffee.collected = true; 
+        coffeeCollected++; 
 
         // Adjust player speed
         if (coffeeCollected <= 5) {
-          player.speed += 0.5; // Gradually increase speed
+          player.speed += 0.5; 
         } else {
-          player.speed = max(1, player.speed - 0.3); // Gradually decrease speed, with a minimum limit
+          player.speed = max(1, player.speed - 0.3); // Gradually lower speed with a minimum limit
         }
       }
     }
