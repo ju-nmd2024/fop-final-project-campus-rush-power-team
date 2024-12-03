@@ -573,7 +573,7 @@ function checkCoffeeCollision() {
         if (coffeeCollected <= 5) {
           player.speed += 0.5; 
         } else {
-          player.speed = max(1, player.speed - 0.3); // Gradually lower speed with a minimum limit
+          player.speed = max(1, player.speed - 1); // Gradually lower speed with a minimum limit
         }
       }
     }
