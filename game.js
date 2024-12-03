@@ -432,12 +432,12 @@ function resetGame() {
       collected: false,
     });
   }
-  npcs = [];
+ /* npcs = [];
   npcs.push(new NPC(700, 345, 35, 45, npcImages, [
     "Hey there! (press enter ->)",
     "The building you are looking for has a different design compared to the other buildings",
-  ]));
-  npcs = [];
+  ]));*/
+  
 npcs.push(new NPC(300, 345, 45, 45, npcImages[0], ["Hey!", "Your building was destroyed, you no longer have class"]));  
 npcs.push(new NPC(450, 500, 35, 45, npcImages[1], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"])); 
 npcs.push(new NPC(1000, 555, 35, 45, npcImages[2], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"]));
