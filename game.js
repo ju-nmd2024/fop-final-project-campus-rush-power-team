@@ -109,7 +109,7 @@ class Building {
 function preload() {
   bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
-  coffeeimg= loadImage('Coffee.png');
+  coffeeimg = loadImage('Coffee.png');
   clockImg = loadImage('Clock.png');
  
   for (let i = 0; i < 5; i++) {
@@ -242,7 +242,7 @@ function setup() {
   
 //NPCs
   npcs.push(new NPC(300, 345, 45, 45, npcImages[0],["Hey!","your building was destroyed, you no longer have class"]));  
-  npcs.push(new NPC(450, 500, 35, 45, npcImages[1],["Hey there!","The building you are looking for has a different design compared to the other buildings"])); 
+  npcs.push(new NPC(450, 500, 35, 45, npcImages[1],["Hey there!","You can see a clock before entering that building"])); 
   npcs.push(new NPC(1000, 555, 35, 45, npcImages[2],["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
   npcs.push(new NPC(790, 245, 35, 45, npcImages[3],["Hi","it is actually a supermarket"]));
 }
@@ -272,10 +272,11 @@ function rulesScreen() {
   //text ("", x, y);
   text("Is your first day as an international student at university", 1300 / 2, 150);
   text("Ask people to guide you to the correct building", 1300 / 2, 200);
-  text("If you go into the wrong building it's game over", 1300 / 2, 250);
-  text("Collect 10 books, if you drink less than 5 coffes you can go faster ", 1300 / 2, 300);
-  text("but if you drink more than 5 it will slow you down", 1300 / 2, 350);
-  text("Get on time! you have 1 min", 1300 / 2, 400);
+  text("AVOID people with 'hats' they can give you the wrong advice", 1300 / 2, 250);
+  text("Get to the correct building before the time is up", 1300 / 2, 300);
+  text("Collect 10 books, if you drink less than 5 coffes you can move faster", 1300 / 2, 350);
+  text("but if you drink more than 5 it will slow you down", 1300 / 2, 400);
+  text("Get on time! if you collect clocks you can have more time", 1300 / 2, 450);
 
   fill(255);
   rect(550, 520, 150, 50, 50); 
@@ -294,7 +295,6 @@ function gameScreen() {
   textSize(20);
   textFont('Verdana');
   text(round(counter), 10, 80);
-
   pop();
 
   for (let building of buildings) {
@@ -439,7 +439,7 @@ function resetGame() {
   ]));*/
   
 npcs.push(new NPC(300, 345, 45, 45, npcImages[0], ["Hey!", "Your building was destroyed, you no longer have class"]));  
-npcs.push(new NPC(450, 500, 35, 45, npcImages[1], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"])); 
+npcs.push(new NPC(450, 500, 35, 45, npcImages[1], ["Hey there!", "You can see a clock before entering that building"])); 
 npcs.push(new NPC(1000, 555, 35, 45, npcImages[2], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"]));
 npcs.push(new NPC(790, 245, 35, 45, npcImages[3], ["Hi", "It is actually a supermarket"]));
 
