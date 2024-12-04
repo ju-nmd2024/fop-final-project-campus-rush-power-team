@@ -1,3 +1,4 @@
+
 let player = { 
   x: 190, 
   y: 700, 
@@ -7,9 +8,8 @@ let player = {
   direction: "up",
   width:50,
   height:50
-
-  
 };
+
 var counter = 60;
 let state = "start";
 let bookImg;
@@ -28,9 +28,8 @@ let coffees = [];
 let coffeeCollected = 0;
 let coffeeimg;
 let clocks= [];
-
+let cloud;
 let clouds = [];
-let cloudImages = [];
 
 
 let npcs = [];
@@ -109,16 +108,39 @@ class Building {
   }
 }
 
+class Cloud {
+  constructor(img, x, y, speed, width, height){
+    this.img = img;
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.width = width;
+    this.height = height;
+  }
+  draw(){
+    image(this.img,this.x,this.y, this.width, this.height);
+  }
+
+  movement(){
+    this.x += this.speed;
+
+    if (this.x > 1300){
+      this.x = 0;
+    }
+  }
+}
+
 function preload() {
   bckgrnd = loadImage('map.png');
   bookImg = loadImage('Book.png');
   coffeeimg = loadImage('Coffee.png');
   clockImg = loadImage('Clock.png');
 
-  cloudImages[0] = loadImage('cloud1.png');
-  cloudImages[1] = loadImage('cloud2.png');
-  cloudImages[2] = loadImage('cloud3.png');
+  let cloudImage = loadImage('clouds.png');
 
+  clouds. push( new Cloud (cloudImage, 0, 50, 1.8, 500, 150));
+  clouds. push( new Cloud (cloudImage, 0, 250, 1, 500, 150));
+  clouds. push( new Cloud (cloudImage, 0, 500, 1.5, 500, 150));
  
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
@@ -135,6 +157,8 @@ function preload() {
   }
   
 }
+
+
 //control the random position for book and coffe to avoid buildings posit
 function checkPosition(x, y, width, height) {
   for (let building of buildings) {
@@ -189,17 +213,7 @@ function checkPosition(x, y, width, height) {
 function setup() {
   createCanvas(1300, 800);
 
-  for (let i = 0; i < 3; i++){
-    let cloud = {
-      img: cloudImages[i],
-      x: 20,
-      y: 30,
-      width: 50,
-      height: 50,
-      speed: 2,
-    };
-    clouds.push(cloud);
-  }
+  
 
   player.currentImg = downImgs[0];
 
@@ -270,20 +284,22 @@ function setup() {
 
 function startScreen() {
 
-  for (let cloud of clouds){
-    image(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
-    if (cloud.x > 1300){
-      cloud.x = -cloud.img.width;
-    }
-  }
-
+  
   push();
   background(176,196,222);
+  for (let cloud of clouds){
+    cloud.draw();
+    cloud.movement();
+    
+  }
   fill(0);
   textSize(40);
+  textStyle(BOLD);
+  textFont('Verdana');
   textAlign(CENTER,CENTER);
   text("Press ENTER to START", 1300 / 2, 250);
 
+  
   fill(255);
   strokeWeight(2);
   rect(550, 400, 150, 50, 50); 
@@ -317,7 +333,6 @@ function rulesScreen() {
 function gameScreen() {
   
   background(bckgrnd);
-  
   push();
   counter -= 1/60;
   fill(0);
@@ -483,6 +498,7 @@ npcs.push(new NPC(790, 245, 35, 45, npcImages[3], ["Hi", "It is actually a super
 
 function draw() {
 
+
   if (state === "start") {
     startScreen();
     if (keyIsDown(13)) {
@@ -567,7 +583,6 @@ function handleMovement() {
 
  
 }
-
 // Check for overlap between player and books
 function checkBookCollision() {
   for (let book of books) {
