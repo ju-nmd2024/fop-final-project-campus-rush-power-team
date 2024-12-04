@@ -29,6 +29,9 @@ let coffeeCollected = 0;
 let coffeeimg;
 let clocks= [];
 
+let clouds = [];
+let cloudImages = [];
+
 
 let npcs = [];
 class NPC {
@@ -111,6 +114,11 @@ function preload() {
   bookImg = loadImage('Book.png');
   coffeeimg = loadImage('Coffee.png');
   clockImg = loadImage('Clock.png');
+
+  cloudImages[0] = loadImage('cloud1.png');
+  cloudImages[1] = loadImage('cloud2.png');
+  cloudImages[2] = loadImage('cloud3.png');
+
  
   for (let i = 0; i < 5; i++) {
     buildingImages.push(loadImage(`building${i}.png`)); 
@@ -180,6 +188,19 @@ function checkPosition(x, y, width, height) {
 
 function setup() {
   createCanvas(1300, 800);
+
+  for (let i = 0; i < 3; i++){
+    let cloud = {
+      img: cloudImages[i],
+      x: 20,
+      y: 30,
+      width: 50,
+      height: 50,
+      speed: 2,
+    };
+    clouds.push(cloud);
+  }
+
   player.currentImg = downImgs[0];
 
   buildings.push(new Building(28, 308, 170, 130, buildingImages[0])); 
@@ -248,6 +269,14 @@ function setup() {
 }
 
 function startScreen() {
+
+  for (let cloud of clouds){
+    image(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
+    if (cloud.x > 1300){
+      cloud.x = -cloud.img.width;
+    }
+  }
+
   push();
   background(176,196,222);
   fill(0);
