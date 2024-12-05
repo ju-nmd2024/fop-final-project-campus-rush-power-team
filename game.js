@@ -138,6 +138,8 @@ function preload() {
   winn = loadImage('win.png');
   lost = loadImage('lost.png');
 
+
+  // clouds images an coordinates for startscreen
   let cloudImage = loadImage('clouds.png');
 
   clouds. push( new Cloud (cloudImage, 0, 50, 1.8, 500, 150));
