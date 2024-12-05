@@ -370,8 +370,7 @@ image(bookImg, book.x , book.y , 20, 20);
   textFont('Verdana');
   text(`Books Collected: ${booksCollected}`, 10, 30);
   text(`Coffee Collected: ${coffeeCollected}`, 10, 60);
-  /*counter -= 1 / 60;
-  text(`Time: ${round(counter)}`, 10, 90);*/
+  
    
    handleMovement();
    checkBookCollision();
@@ -508,18 +507,26 @@ function draw() {
     gameScreen();
 
     // Winning or losing in the game
-    if (counter >= 0 ){
-      if (player.x >=1050 && player.x <=1150 &&
-        player.y >=160 && player.y <=170){
-        if (booksCollected === 10){
-          state = "win";   
+if (counter >= 0) {
+  if (
+    player.x >= 1050 && player.x <= 1150 &&
+    player.y >= 160 && player.y <= 170
+  ) {
+    if (booksCollected === 10) {
+      state = "win";
     } else {
       state = "lose";
-   }
+    }
+  } else if (
+    (player.x >= 30 && player.x <= 200 && player.y >= 140 && player.y <= 170) ||
+    (player.x >= 500 && player.x <= 550 && player.y >= 0 && player.y <= 180) ||
+    (player.x >= 500 && player.x <= 550 && player.y >= 580 && player.y <= 620) ||
+    (player.x >= 1000 && player.x <= 1200 && player.y >= 300 && player.y <= 500)
+  ) {
+    state = "lose";
   }
-}else{
-      state = "lose";
 }
+
 } else if (state === "lose") {
     resultScreenGameOver();
 } else if (state === "win") {
