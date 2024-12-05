@@ -135,6 +135,8 @@ function preload() {
   bookImg = loadImage('Book.png');
   coffeeimg = loadImage('Coffee.png');
   clockImg = loadImage('Clock.png');
+  winn = loadImage('win.png');
+  lost = loadImage('lost.png');
 
   let cloudImage = loadImage('clouds.png');
 
@@ -334,11 +336,12 @@ function gameScreen() {
   
   background(bckgrnd);
   push();
-  counter -= 1/60;
+  counter -= 1/60; 
   fill(0);
   textSize(20);
   textFont('Verdana');
-  text(round(counter), 10, 80);
+  text('timer:', 10, 80);
+  text(round(counter), 80, 80);
   pop();
 
   for (let building of buildings) {
@@ -384,12 +387,13 @@ image(bookImg, book.x , book.y , 20, 20);
 }
 
 function resultScreenGameOver() {
-  background(202, 11, 11);
+  background(255,0,0);
+  image(lost,400,100,500,500);
   textSize(42);
   fill(255);
   textAlign(CENTER);
   textFont('Verdana');
-  text("Game Over", 1300 / 2, 250);
+  //text("Game Over", 1300 / 2, 250);
 
   fill(255);
   rect(700, 520, 150, 50, 50); // Retry - Button
@@ -514,7 +518,7 @@ if (counter >= 0) {
   ) {
     if (booksCollected === 10) {
       state = "win";
-    } else {
+    } else{
       state = "lose";
     }
   } else if (
@@ -525,6 +529,8 @@ if (counter >= 0) {
   ) {
     state = "lose";
   }
+} if (counter <= 0){
+  state = "lose";
 }
 
 } else if (state === "lose") {
@@ -566,7 +572,7 @@ function handleMovement() {
       isMoving = true;
     }
   }
-  
+  // reference for the animation cycling https://p5play.org/learn/animation.html. 
   if (isMoving) {
     
     if (frameCount % 6 === 0) { 
