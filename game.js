@@ -513,8 +513,8 @@ function draw() {
     // Winning or losing in the game
 if (counter >= 0) {
   if (
-    player.x >= 1050 && player.x <= 1150 &&
-    player.y >= 160 && player.y <= 170
+    player.x >= 1040 && player.x <= 1140 &&
+    player.y >= 80 && player.y <= 130
   ) {
     if (booksCollected === 10) {
       state = "win";
@@ -522,10 +522,10 @@ if (counter >= 0) {
       state = "lose";
     }
   } else if (
-    (player.x >= 30 && player.x <= 200 && player.y >= 140 && player.y <= 170) ||
-    (player.x >= 500 && player.x <= 550 && player.y >= 0 && player.y <= 180) ||
-    (player.x >= 500 && player.x <= 550 && player.y >= 580 && player.y <= 620) ||
-    (player.x >= 1000 && player.x <= 1200 && player.y >= 300 && player.y <= 500)
+    (player.x >= 20 && player.x <= 170 && player.y >= 310 && player.y <= 420) ||
+    (player.x >= 500 && player.x <= 550 && player.y >= 0 && player.y <= 160) ||
+    (player.x >= 500 && player.x <= 620 && player.y >= 680 && player.y <= 740) ||
+    (player.x >= 1000 && player.x <= 1200 && player.y >= 400 && player.y <= 500)
   ) {
     state = "lose";
   }
@@ -543,7 +543,7 @@ if (counter >= 0) {
   
 }
 
-function handleMovement() {
+function handleMovement() { 
   let isMoving = false;
   if (keyIsDown(LEFT_ARROW)) {
     //change the value of direction so that the switch know which frame to display
