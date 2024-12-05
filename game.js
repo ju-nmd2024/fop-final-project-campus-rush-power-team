@@ -33,6 +33,8 @@ let clouds = [];
 
 
 let npcs = [];
+
+// The following lines of code are inspired by: https://youtu.be/WPT2BmkFFyo
 class NPC {
   constructor(x, y, width, height, img, messages){
     this.x = x;
@@ -175,18 +177,6 @@ function checkPosition(x, y, width, height) {
       return false; 
     }
   }
-  
-
- /* for (let book of books) {
-    if (
-      x < book.x + 20 && // Book width
-      x + width > book.x &&
-      y < book.y + 20 && // Book height
-      y + height > book.y
-    ) {
-      return false; // Invalid position
-    }
-  }*/
  
   for (let coffee of coffees) {
     if (
@@ -280,10 +270,10 @@ function setup() {
   
   
 //NPCs
-  npcs.push(new NPC(300, 345, 45, 45, npcImages[0],["Hey!","your building was destroyed, you no longer have class"]));  
-  npcs.push(new NPC(450, 500, 35, 45, npcImages[1],["Hey there!","You can see a clock before entering that building"])); 
-  npcs.push(new NPC(1000, 555, 35, 45, npcImages[2],["Hey there!","The building you are looking for has a different design compared to the other buildings"]));
-  npcs.push(new NPC(790, 245, 35, 45, npcImages[3],["Hi","it is actually a supermarket"]));
+  npcs.push(new NPC(300, 345, 45, 45, npcImages[0],["Hey! (press ENTER)","your building was destroyed, you no longer have class"]));  
+  npcs.push(new NPC(450, 500, 35, 45, npcImages[1],["Hey there (press ENTER)!","You can see a clock before entering that building"])); 
+  npcs.push(new NPC(1000, 555, 35, 45, npcImages[2],["Hey there! (press ENTER)","The building you are looking for has a different design compared to the other buildings"]));
+  npcs.push(new NPC(790, 245, 35, 45, npcImages[3],["Hi (press ENTER)","it is actually a supermarket"]));
 }
 
 function startScreen() {
@@ -336,6 +326,7 @@ function rulesScreen() {
 
 function gameScreen() {
   
+  // The timer was inspired by: https://youtu.be/h8dHw1-WbAY
   background(bckgrnd);
   push();
   counter -= 1/60; 
@@ -407,17 +398,18 @@ function resultScreenGameOver() {
 }
 
 function resultScreenWin() {
-  background(0, 200, 0);
-  textSize(42);
-  fill(255);
-  textAlign(CENTER);
-  text("You arrived on time!!", 1300/ 2, 250);
+  background(176,196,222);
+  image(winn,400,100,500,500);
+textSize(42);
 
-  fill(255);
-  rect(550, 520, 150, 50, 50); // Main Menu - Button
-  fill(0);
-  textSize(20);
-  text("Main Menu", 630, 550);
+textAlign(CENTER);
+
+
+fill(255);
+rect(550, 520, 150, 50, 50); // Main Menu - Button
+fill(0);
+textSize(20);
+text("Main Menu", 630, 550);
 }
 
 function resetGame() {
@@ -487,10 +479,10 @@ function resetGame() {
     "The building you are looking for has a different design compared to the other buildings",
   ]));*/
   
-npcs.push(new NPC(300, 345, 45, 45, npcImages[0], ["Hey!", "Your building was destroyed, you no longer have class"]));  
-npcs.push(new NPC(450, 500, 35, 45, npcImages[1], ["Hey there!", "You can see a clock before entering that building"])); 
-npcs.push(new NPC(1000, 555, 35, 45, npcImages[2], ["Hey there!", "The building you are looking for has a different design compared to the other buildings"]));
-npcs.push(new NPC(790, 245, 35, 45, npcImages[3], ["Hi", "It is actually a supermarket"]));
+npcs.push(new NPC(300, 345, 45, 45, npcImages[0], ["Hey! (press ENTER)", "Your building was destroyed, you no longer have class"]));  
+npcs.push(new NPC(450, 500, 35, 45, npcImages[1], ["Hey there! (press ENTER)", "You can see a clock before entering that building"])); 
+npcs.push(new NPC(1000, 555, 35, 45, npcImages[2], ["Hey there! (press ENTER)", "The building you are looking for has a different design compared to the other buildings"]));
+npcs.push(new NPC(790, 245, 35, 45, npcImages[3], ["Hi (press ENTER)", "It is actually a supermarket"]));
 
 
    /*for (let npc of npcs){
